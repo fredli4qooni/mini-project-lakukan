@@ -2,6 +2,8 @@ import { CategorySidebar } from "@/components/organisms/CategorySidebar";
 import { HeroBanner } from "@/components/organisms/HeroBanner";
 import { FlashSaleSection } from "@/components/organisms/FlashSaleSection";
 import { CategorySection } from "@/components/organisms/CategorySection";
+import { BestSellingSection } from "@/components/organisms/BestSellingSection";
+import { MusicBanner } from "@/components/organisms/MusicBanner";
 
 export default function Home() {
   return (
@@ -14,6 +16,8 @@ export default function Home() {
       </div>
       <FlashSaleSection />
       <CategorySection />
+      <BestSellingSection />
+      <MusicBanner />
     </main>
   );
 }

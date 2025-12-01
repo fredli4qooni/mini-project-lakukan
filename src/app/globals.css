@@ -3,6 +3,7 @@
 @theme {
   --color-danger: #db4444;
   --color-danger-hover: #e07575;
+  --color-neon: #00FF66;
 }
 
 @keyframes fadeIn {
