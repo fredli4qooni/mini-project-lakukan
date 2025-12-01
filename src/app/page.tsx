@@ -4,9 +4,11 @@ import { FlashSaleSection } from "@/components/organisms/FlashSaleSection";
 import { CategorySection } from "@/components/organisms/CategorySection";
 import { BestSellingSection } from "@/components/organisms/BestSellingSection";
 import { MusicBanner } from "@/components/organisms/MusicBanner";
+import { ExploreProductsSection } from "@/components/organisms/ExploreProductsSection";
 
 export default function Home() {
   return (
+    
     <main>
       <div className="container mx-auto px-4 mb-20">
         <div className="flex flex-col md:flex-row">
@@ -18,6 +20,8 @@ export default function Home() {
       <CategorySection />
       <BestSellingSection />
       <MusicBanner />
+      <ExploreProductsSection />
+
     </main>
   );
 }

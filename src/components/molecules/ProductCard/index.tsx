@@ -8,10 +8,12 @@ interface ProductCardProps {
   image: string;
   title: string;
   price: number;
-  originalPrice: number;
-  discountPercent: number;
+  originalPrice?: number;
+  discountPercent?: number;
   rating: number;
   ratingCount: number;
+  isNew?: boolean;
+  colors?: string[];
 }
 
 export const ProductCard = ({
@@ -22,14 +24,23 @@ export const ProductCard = ({
   discountPercent,
   rating,
   ratingCount,
+  isNew,
+  colors,
 }: ProductCardProps) => {
   return (
-    <div className="group relative w-[270px] cursor-pointer">
+    <div className="group relative w-[270px] flex-shrink-0 cursor-pointer">
+      
       <div className="relative w-full h-[250px] bg-gray-100 rounded flex items-center justify-center overflow-hidden mb-4">
         
-        <div className="absolute top-3 left-3 bg-danger text-white text-xs px-3 py-1 rounded-sm z-10">
-          -{discountPercent}%
-        </div>
+        {isNew ? (
+          <div className="absolute top-3 left-3 bg-[#00FF66] text-white text-xs px-3 py-1 rounded-sm z-10 font-medium">
+            NEW
+          </div>
+        ) : discountPercent ? (
+          <div className="absolute top-3 left-3 bg-danger text-white text-xs px-3 py-1 rounded-sm z-10">
+            -{discountPercent}%
+          </div>
+        ) : null}
 
         <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
           <button className="bg-white p-1.5 rounded-full hover:bg-danger hover:text-white transition-colors shadow-sm">
@@ -60,9 +71,11 @@ export const ProductCard = ({
         
         <div className="flex gap-3 text-base">
           <span className="text-danger font-medium">{formatPrice(price)}</span>
-          <span className="text-gray-400 line-through decoration-1">
-            {formatPrice(originalPrice)}
-          </span>
+          {originalPrice && (
+            <span className="text-gray-400 line-through decoration-1">
+              {formatPrice(originalPrice)}
+            </span>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -76,6 +89,19 @@ export const ProductCard = ({
           </div>
           <span className="text-gray-400 text-sm font-semibold">({ratingCount})</span>
         </div>
+
+        {colors && colors.length > 0 && (
+          <div className="flex gap-2 mt-1">
+            {colors.map((color, index) => (
+              <div 
+                key={index} 
+                className={`w-4 h-4 rounded-full border border-gray-300 cursor-pointer ${index === 0 ? "ring-2 ring-black ring-offset-1" : ""}`}
+                style={{ backgroundColor: color }}
+              />
+            ))}
+          </div>
+        )}
+
       </div>
     </div>
   );
