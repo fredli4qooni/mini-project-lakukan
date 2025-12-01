@@ -1,6 +1,7 @@
 import { CategorySidebar } from "@/components/organisms/CategorySidebar";
 import { HeroBanner } from "@/components/organisms/HeroBanner";
 import { FlashSaleSection } from "@/components/organisms/FlashSaleSection";
+import { CategorySection } from "@/components/organisms/CategorySection";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
         </div>
       </div>
       <FlashSaleSection />
+      <CategorySection />
     </main>
   );
 }
