@@ -3,8 +3,10 @@
 import Image from "next/image";
 import { Heart, Eye, Star } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
+import { useCartStore } from "@/store/useCartStore";
 
 interface ProductCardProps {
+  id: number;
   image: string;
   title: string;
   price: number;
@@ -17,6 +19,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({
+  id,
   image,
   title,
   price,
@@ -27,6 +30,19 @@ export const ProductCard = ({
   isNew,
   colors,
 }: ProductCardProps) => {
+  const { addItem } = useCartStore();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addItem({ 
+      id, 
+      title, 
+      price, 
+      image 
+    });
+    console.log(`${title} added to cart!`);
+  };
+
   return (
     <div className="group relative w-[270px] flex-shrink-0 cursor-pointer">
       
@@ -61,7 +77,10 @@ export const ProductCard = ({
              />
         </div>
 
-        <button className="absolute bottom-0 left-0 w-full bg-black text-white py-2 text-center font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+        <button 
+          onClick={handleAddToCart}
+          className="absolute bottom-0 left-0 w-full bg-black text-white py-2 text-center font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300 cursor-pointer hover:bg-gray-800"
+        >
           Add To Cart
         </button>
       </div>
