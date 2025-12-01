@@ -5,6 +5,7 @@ import { CategorySection } from "@/components/organisms/CategorySection";
 import { BestSellingSection } from "@/components/organisms/BestSellingSection";
 import { MusicBanner } from "@/components/organisms/MusicBanner";
 import { ExploreProductsSection } from "@/components/organisms/ExploreProductsSection";
+import { NewArrivalSection } from "@/components/organisms/NewArrivalSection";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <BestSellingSection />
       <MusicBanner />
       <ExploreProductsSection />
+      <NewArrivalSection />
 
     </main>
   );
