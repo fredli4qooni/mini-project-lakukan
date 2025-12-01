@@ -4,6 +4,7 @@ import { FlashSaleTimer } from "@/components/molecules/FlashSaleTimer";
 import { ProductCard } from "@/components/molecules/ProductCard";
 import { Button } from "@/components/atoms/Button";
 import { calculateOriginalPrice } from "@/lib/utils";
+import api from "@/lib/axios";
 
 interface Product {
   id: number;
@@ -18,14 +19,7 @@ interface Product {
 
 async function getFlashSaleProducts() {
   try {
-    const res = await fetch("https://fakestoreapi.com/products?limit=6", {
-      cache: "force-cache", 
-      next: { revalidate: 3600 },
-    });
-    
-    if (!res.ok) throw new Error("Failed to fetch");
-    
-    const products: Product[] = await res.json();
+    const { data: products } = await api.get<Product[]>("/products?limit=6");
     
     return products.map((product) => {
       const discountPercent = Math.floor(Math.random() * (50 - 30 + 1) + 30);
@@ -38,7 +32,7 @@ async function getFlashSaleProducts() {
       };
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching flash sale:", error);
     return [];
   }
 }

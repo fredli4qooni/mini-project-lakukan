@@ -2,6 +2,7 @@ import { SectionLabel } from "@/components/atoms/SectionLabel";
 import { Button } from "@/components/atoms/Button";
 import { ProductCard } from "@/components/molecules/ProductCard";
 import { calculateOriginalPrice } from "@/lib/utils";
+import api from "@/lib/axios";
 
 interface Product {
   id: number;
@@ -16,17 +17,10 @@ interface Product {
 
 async function getBestSellingProducts() {
   try {
-    const res = await fetch("https://fakestoreapi.com/products/category/men's clothing?limit=4", {
-      cache: "force-cache",
-      next: { revalidate: 3600 },
-    });
-    
-    if (!res.ok) throw new Error("Failed to fetch");
-    
-    const products: Product[] = await res.json();
+    const { data: products } = await api.get<Product[]>("/products/category/men's clothing?limit=4");
     
     return products.map((product) => {
-      const discountPercent = 15;
+      const discountPercent = 15; 
       const originalPrice = calculateOriginalPrice(product.price, discountPercent);
       
       return {
@@ -36,7 +30,7 @@ async function getBestSellingProducts() {
       };
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching best selling:", error);
     return [];
   }
 }

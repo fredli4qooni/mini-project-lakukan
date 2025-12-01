@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { SectionLabel } from "@/components/atoms/SectionLabel";
 import { Button } from "@/components/atoms/Button";
 import { ProductCard } from "@/components/molecules/ProductCard";
+import api from "@/lib/axios";
 
 interface Product {
   id: number;
@@ -16,15 +17,9 @@ interface Product {
 
 async function getExploreProducts() {
   try {
-    const res = await fetch("https://fakestoreapi.com/products?limit=20", {
-      cache: "force-cache",
-      next: { revalidate: 3600 },
-    });
+    const { data: allProducts } = await api.get<Product[]>("/products?limit=20");
     
-    if (!res.ok) throw new Error("Failed to fetch");
-    
-    const allProducts: Product[] = await res.json();
-    const products = allProducts.slice(6, 14);
+    const products = allProducts.slice(6, 14); 
 
     return products.map((product, index) => {
       const isNew = index % 2 !== 0; 
@@ -40,7 +35,7 @@ async function getExploreProducts() {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching explore products:", error);
     return [];
   }
 }
