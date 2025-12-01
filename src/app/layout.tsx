@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { GlobalHeader } from "@/components/organisms/GlobalHeader";
+import { GlobalFooter } from "@/components/organisms/GlobalFooter";
 
 export const metadata: Metadata = {
   title: "Exclusive E-Commerce",
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body className="antialiased bg-white text-black">
         <GlobalHeader />
         {children}
+        <GlobalFooter />
       </body>
     </html>
   );
