@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Heart, Eye, Star } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/store/useCartStore";
@@ -30,21 +31,25 @@ export const ProductCard = ({
   isNew,
   colors,
 }: ProductCardProps) => {
+  
   const { addItem } = useCartStore();
+  const router = useRouter();
+
+  const handleCardClick = () => {
+    router.push(`/product/${id}`);
+  };
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    addItem({ 
-      id, 
-      title, 
-      price, 
-      image 
-    });
-    console.log(`${title} added to cart!`);
+    e.preventDefault();
+    addItem({ id, title, price, image });
   };
 
   return (
-    <div className="group relative w-[270px] flex-shrink-0 cursor-pointer">
+    <div 
+      onClick={handleCardClick}
+      className="group relative w-[270px] flex-shrink-0 cursor-pointer"
+    >
       
       <div className="relative w-full h-[250px] bg-gray-100 rounded flex items-center justify-center overflow-hidden mb-4">
         
@@ -59,10 +64,16 @@ export const ProductCard = ({
         ) : null}
 
         <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
-          <button className="bg-white p-1.5 rounded-full hover:bg-danger hover:text-white transition-colors shadow-sm">
+          <button 
+            onClick={(e) => { e.stopPropagation(); }}
+            className="bg-white p-1.5 rounded-full hover:bg-danger hover:text-white transition-colors shadow-sm"
+          >
             <Heart className="w-5 h-5" />
           </button>
-          <button className="bg-white p-1.5 rounded-full hover:bg-danger hover:text-white transition-colors shadow-sm">
+          <button 
+            onClick={(e) => { e.stopPropagation(); }}
+            className="bg-white p-1.5 rounded-full hover:bg-danger hover:text-white transition-colors shadow-sm"
+          >
             <Eye className="w-5 h-5" />
           </button>
         </div>
@@ -79,14 +90,14 @@ export const ProductCard = ({
 
         <button 
           onClick={handleAddToCart}
-          className="absolute bottom-0 left-0 w-full bg-black text-white py-2 text-center font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300 cursor-pointer hover:bg-gray-800"
+          className="absolute bottom-0 left-0 w-full bg-black text-white py-2 text-center font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300 hover:bg-gray-800 z-20"
         >
           Add To Cart
         </button>
       </div>
 
       <div className="flex flex-col gap-2">
-        <h3 className="font-medium text-base truncate">{title}</h3>
+        <h3 className="font-medium text-base truncate group-hover:text-danger transition-colors">{title}</h3>
         
         <div className="flex gap-3 text-base">
           <span className="text-danger font-medium">{formatPrice(price)}</span>
@@ -100,10 +111,7 @@ export const ProductCard = ({
         <div className="flex items-center gap-2">
           <div className="flex text-yellow-400">
             {[...Array(5)].map((_, i) => (
-               <Star 
-                 key={i} 
-                 className={`w-4 h-4 ${i < Math.round(rating) ? "fill-yellow-400" : "fill-gray-300 text-gray-300"}`} 
-               />
+               <Star key={i} className={`w-4 h-4 ${i < Math.round(rating) ? "fill-yellow-400" : "fill-gray-300 text-gray-300"}`} />
             ))}
           </div>
           <span className="text-gray-400 text-sm font-semibold">({ratingCount})</span>
